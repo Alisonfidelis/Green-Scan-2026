@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Scan - IA Anti-Desperdício</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Ícones modernos -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+</head>
+<body>
+
+    <!-- Barra de Navegação -->
+    <header>
+        <div class="navbar container">
+            <div class="logo">
+                <i class="fa-solid fa-qrcode text-neon"></i>
+                <span>Green<span class="text-neon">Scan</span></span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#scanner" class="active">Scanner</a></li>
+                    <li><a href="#sobre">Como Funciona</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="container">
+        
+        <!-- Seção de Apresentação -->
+        <section class="hero text-center" id="sobre">
+            <h1>Evite o desperdício com <span class="text-neon">Inteligência Artificial</span></h1>
+            <p>Faça o upload ou tire uma foto do seu alimento. Nossa IA vai analisar o estado de conservação e te dizer se ele está próximo do vencimento.</p>
+        </section>
+
+        <!-- Seção do Scanner -->
+        <section class="scanner-container" id="scanner">
+            
+            <!-- Área de Upload/Arrastar Foto -->
+            <div class="upload-box" id="drop-zone">
+                <input type="file" id="file-input" accept="image/*" hidden>
+                <div class="upload-content" id="upload-content">
+                    <i class="fa-solid fa-cloud-arrow-up icon-upload"></i>
+                    <h3>Arraste sua foto aqui</h3>
+                    <p>ou clique para buscar no seu dispositivo</p>
+                </div>
+                <!-- Miniatura da imagem carregada -->
+                <div class="preview-container hidden" id="preview-container">
+                    <img src="" alt="Previsualização do alimento" id="image-preview">
+                    <button class="btn-remove" id="btn-remove" title="Remover imagem">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Botão de Ação -->
+            <div class="text-center">
+                <button class="btn-primary" id="btn-analyze" disabled>
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Analisar Alimento
+                </button>
+            </div>
+
+            <!-- Tela de Carregamento da IA -->
+            <div class="loading-container hidden" id="loading-box">
+                <div class="spinner"></div>
+                <p>A Inteligência Artificial está analisando os padrões visuais...</p>
+            </div>
+
+            <!-- Painel de Resultados -->
+            <div class="result-container hidden" id="result-box">
+                <div class="result-header">
+                    <h2><i class="fa-solid fa-chart-pie"></i> Diagnóstico da IA</h2>
+                    <span class="badge" id="status-badge">Seguro</span>
+                </div>
+                
+                <div class="result-body">
+                    <div class="result-item">
+                        <strong>Alimento Detectado:</strong>
+                        <span id="detected-food">-</span>
+                    </div>
+                    <div class="result-item">
+                        <strong>Tempo Estimado de Consumo:</strong>
+                        <span id="estimated-time">-</span>
+                    </div>
+                    <div class="result-item">
+                        <strong>Recomendação da IA:</strong>
+                        <p id="ai-recommendation">-</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="container text-center">
+            <p>&copy; 2026 Green Scan. Tecnologia aliada à sustentabilidade.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
