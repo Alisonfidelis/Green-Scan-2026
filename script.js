@@ -1,4 +1,3 @@
-// Seleção dos elementos do HTML
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
 const uploadContent = document.getElementById('upload-content');
@@ -9,67 +8,89 @@ const btnAnalyze = document.getElementById('btn-analyze');
 const loadingBox = document.getElementById('loading-box');
 const resultBox = document.getElementById('result-box');
 
-// Elementos de texto do resultado
 const detectedFood = document.getElementById('detected-food');
 const estimatedTime = document.getElementById('estimated-time');
 const aiRecommendation = document.getElementById('ai-recommendation');
 const statusBadge = document.getElementById('status-badge');
 
-// Banco de dados fictício de respostas da IA para demonstração
+// Banco de dados fictício expandido com mais frutas e respostas ricas
 const mockAIResults = [
+    {
+        alimento: "Uva Niágara",
+        tempo: "Consumir em até 4 dias",
+        status: "bom",
+        textoStatus: "Fresco / Seguro",
+        recomendacao: "Engaço verde e firme detectado. Fruto bem aderido ao cacho. Mantenha em um pote fechado dentro da geladeira sem lavar, lavando apenas na hora exata de comer."
+    },
+    {
+        alimento: "Uva Vitória",
+        tempo: "Consumir em até 24 horas",
+        status: "atencao",
+        textoStatus: "Atenção / Muito Madura",
+        recomendacao: "Algumas uvas estão se soltando facilmente do cacho e apresentando textura muito macia. Ideal para consumo imediato ou para fazer geleia caseira."
+    },
+    {
+        alimento: "Morango Nacional",
+        tempo: "Descarte Recomendado",
+        status: "critico",
+        textoStatus: "Crítico / Estragado",
+        recomendacao: "Presença visível de mofo/bolor esbranquiçado na base da fruta. Os esporos de fungos se espalham rapidamente por toda a embalagem, descarte para sua segurança."
+    },
+    {
+        alimento: "Morango Orgânico",
+        tempo: "Consumir em até 2 dias",
+        status: "bom",
+        textoStatus: "Maduro Fresco",
+        recomendacao: "Coloração vermelha vibrante e folhas verdes bem preservadas. Por não conter conservantes, consuma rápido ou guarde com papel toalha no fundo do pote."
+    },
     {
         alimento: "Banana Prata",
         tempo: "Consumir em até 2 dias",
         status: "atencao",
-        textoStatus: "Atenção",
-        recomendacao: "A casca apresenta várias manchas escuras (açúcar concentrado). O fruto está muito maduro, ideal para o consumo imediato, produção de bolos ou congelamento para vitaminas."
+        textoStatus: "Muito Madura",
+        recomendacao: "A casca apresenta várias manchas escuras (açúcar concentrado). O fruto está muito doce e macio, ideal para bolos, doces ou congelamento para vitaminas."
     },
     {
         alimento: "Tomate Italiano",
         tempo: "Consumir em até 5 dias",
         status: "bom",
-        textoStatus: "Seguro / Fresco",
-        recomendacao: "Firmeza ideal e casca com cor vermelha uniforme, sem pontos de bolor ou rachaduras. Armazene local fresco e arejado fora da geladeira se quiser manter mais sabor."
+        textoStatus: "Fresco / Perfeito",
+        recomendacao: "Firmeza ideal e casca com cor vermelha uniforme, sem pontos de bolor ou rachaduras. Armazene fora da geladeira para preservar todo o sabor original."
     },
     {
-        alimento: "Morango",
-        tempo: "Descarte Recomendado",
-        status: "critico",
-        textoStatus: "Crítico",
-        recomendacao: "Presença visível de hifas de fungo (bolor branco/cinza) em mais de um ponto da bandeja. Evite consumir, pois os esporos se espalham rapidamente por todo o alimento."
-    },
-    {
-        alimento: "Alface Crespa",
-        tempo: "Consumir em até 24 horas",
-        status: "atencao",
-        textoStatus: "Murchando",
-        recomendacao: "Bordas das folhas levemente escurecidas e desidratadas devido à oxidação. Recomenda-se lavar bem e deixar imerso em água gelada por 15 minutos para reidratar antes de comer."
-    },
-    {
-        alimento: "Leite Integral (Caixa)",
-        tempo: "Consumir em até 3 dias",
+        alimento: "Maçã Gala",
+        tempo: "Consumir em até 10 dias",
         status: "bom",
-        textoStatus: "Aberto recente",
-        recomendacao: "Nenhum sinal de estufamento na embalagem. Lembre-se de manter refrigerado na prateleira interna da geladeira (nunca na porta) após aberto."
+        textoStatus: "Excelente Estado",
+        recomendacao: "Casca firme e brilhante sem nenhum sinal de amassados. Ótima durabilidade. Pode ser mantida na gaveta de frutas da geladeira por bastante tempo."
+    },
+    {
+        alimento: "Abacate Margarida",
+        tempo: "Consumir em até 48 horas",
+        status: "atencao",
+        textoStatus: "Pronto para Consumo",
+        recomendacao: "A casca cede levemente ao toque suave dos dedos. Está no ponto perfeito para fazer guacamole ou cremes. Após aberto, guarde com o caroço para não escurecer rápido."
+    },
+    {
+        alimento: "Laranja Pêra",
+        tempo: "Consumir em até 7 dias",
+        status: "bom",
+        textoStatus: "Fresco",
+        recomendacao: "Casca espessa, pesada e cheia de suco, sem manchas verdes amargas na superfície. Excelente para sucos naturais ricos em Vitamina C."
     }
 ];
 
-// --- EVENTOS DE UPLOAD (Clique e Arrastar) ---
-
-// Abrir seletor de arquivo ao clicar na caixa
+// --- EVENTOS DE UPLOAD ---
 dropZone.addEventListener('click', () => {
-    // Só abre se não tiver nenhuma imagem sendo visualizada
     if (previewContainer.classList.contains('hidden')) {
         fileInput.click();
     }
 });
 
-// Captura do arquivo selecionado
 fileInput.addEventListener('change', function() {
-    handleFile(this.files[0]);
+    handleFile(this.files);
 });
 
-// Efeitos visuais de arrastar arquivo por cima da caixa
 dropZone.addEventListener('dragover', (e) => {
     e.preventDefault();
     dropZone.classList.add('dragover');
@@ -83,11 +104,10 @@ dropZone.addEventListener('drop', (e) => {
     e.preventDefault();
     dropZone.classList.remove('dragover');
     if (e.dataTransfer.files.length > 0) {
-        handleFile(e.dataTransfer.files[0]);
+        handleFile(e.dataTransfer.files);
     }
 });
 
-// Função para ler o arquivo e gerar a miniatura
 function handleFile(file) {
     if (!file || !file.type.startsWith('image/')) {
         alert('Por favor, selecione apenas arquivos de imagem válida.');
@@ -99,15 +119,14 @@ function handleFile(file) {
         imagePreview.src = e.target.result;
         uploadContent.classList.add('hidden');
         previewContainer.classList.remove('hidden');
-        btnAnalyze.disabled = false; // Ativa o botão de analisar
-        resultBox.classList.add('hidden'); // Esconde resultados antigos se houver
+        btnAnalyze.disabled = false;
+        resultBox.classList.add('hidden');
     }
     reader.readAsDataURL(file);
 }
 
-// Botão para remover a imagem atual
 btnRemove.addEventListener('click', (e) => {
-    e.stopPropagation(); // Evita reabrir a janela de arquivos
+    e.stopPropagation();
     fileInput.value = '';
     imagePreview.src = '';
     previewContainer.classList.add('hidden');
@@ -116,32 +135,26 @@ btnRemove.addEventListener('click', (e) => {
     resultBox.classList.add('hidden');
 });
 
-// --- SIMULAÇÃO DA INTELIGÊNCIA ARTIFICIAL ---
-
+// --- SIMULAÇÃO DA IA ---
 btnAnalyze.addEventListener('click', () => {
-    // Exibe o painel de carregamento
     btnAnalyze.disabled = true;
     loadingBox.classList.remove('hidden');
     resultBox.classList.add('hidden');
 
-    // Simula uma requisição de IA que demora 2.5 segundos
     setTimeout(() => {
-        // Sorteia um dos diagnósticos do banco de dados
         const randomIndex = Math.floor(Math.random() * mockAIResults.length);
         const data = mockAIResults[randomIndex];
 
-        // Atualiza a tela com os dados gerados pela "IA"
         detectedFood.textContent = data.alimento;
         estimatedTime.textContent = data.tempo;
         aiRecommendation.textContent = data.recomendacao;
         
-        // Ajusta o crachá de alerta dinamicamente
         statusBadge.textContent = data.textoStatus;
         statusBadge.className = `badge ${data.status}`;
 
-        // Esconde o carregamento e mostra a resposta final
         loadingBox.classList.add('hidden');
         resultBox.classList.remove('hidden');
         btnAnalyze.disabled = false;
     }, 2500);
 });
+
